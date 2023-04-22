@@ -10,8 +10,8 @@ module "vpc" {
   cidr = "10.0.0.0/16"
 
   azs             = data.aws_availability_zones.available.names
-  public_subnets  = [for index, _ in local.azs : "10.0.${index}.0/24"]
-  private_subnets = [for index, _ in local.azs : "10.0.${100 + index}.0/24"]
+  public_subnets  = [for index, _ in azs : "10.0.${index}.0/24"]
+  private_subnets = [for index, _ in azs : "10.0.${100 + index}.0/24"]
 
   enable_nat_gateway   = true
   enable_dns_hostnames = true
