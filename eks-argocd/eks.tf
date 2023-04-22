@@ -41,20 +41,3 @@ module "eks" {
 output "endpoint" {
     value = module.eks.cluster_endpoint
 }
-
-resource "null_resource" "kubeconfig" {
-  triggers = {
-    always = timestamp()
-  }
-
-  depends_on = [module.eks]
-
-  provisioner "local-exec" {
-    interpreter = ["/bin/bash", "-c"]
-    command     = <<EOT
-      set -e
-      aws eks wait cluster-active --name '${var.eks_cluster_name}'
-      aws eks update-kubeconfig --name '${var.eks_cluster_name}' --region=${var.AWS_DEFAULT_REGION}
-    EOT
-  }
-}
