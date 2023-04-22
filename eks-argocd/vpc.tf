@@ -14,7 +14,6 @@ module "vpc" {
   private_subnets = [for index, _ in local.azs : "10.0.${100 + index}.0/24"]
 
   enable_nat_gateway   = true
-  enable_classiclink   = false
   enable_dns_hostnames = true
   enable_dns_support   = true
 
