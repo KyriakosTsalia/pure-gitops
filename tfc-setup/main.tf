@@ -49,3 +49,10 @@ resource "tfe_variable" "aws-secret-key" {
   workspace_id = tfe_workspace.eks.id
   sensitive    = true
 }
+
+resource "tfe_variable" "eks-cluster-name" {
+  key          = "eks_cluster_name"
+  value        = var.eks_cluster_name
+  category     = "terraform"
+  workspace_id = tfe_workspace.eks.id
+}
