@@ -28,7 +28,7 @@ resource "gitlab_deploy_token" "argocd" {
 
 resource "gitlab_project_hook" "example" {
   project               = "kyriakos_tsalia/pure-gitops"
-  url                   = "ad1a0f04350ea49c1beffcb2542c4a35-1068545409.eu-central-1.elb.amazonaws.com/api/webhook"
+  url                   = "http://ad1a0f04350ea49c1beffcb2542c4a35-1068545409.eu-central-1.elb.amazonaws.com/api/webhook"
   merge_requests_events = true
 }
 
