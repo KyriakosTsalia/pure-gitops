@@ -35,7 +35,7 @@ resource "terraform_data" "argocd-lb-delay" {
 
 data "aws_lb" "argocd-lb" {
   tags {
-    "kubernetes.io/service-name" = "argocd/argocd-1-server",
+    kubernetes.io/service-name = "argocd/argocd-1-server"
   }
 }
 
