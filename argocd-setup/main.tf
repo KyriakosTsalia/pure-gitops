@@ -26,9 +26,22 @@ resource "gitlab_deploy_token" "argocd" {
   scopes = ["read_repository"]
 }
 
+resource "terraform_data" "argocd-lb-delay" {
+  triggers_replace = helm_release.argocd.id
+  provisioner "local-exec" {
+    command = ["sleep 60"]
+  }
+}
+
+data "aws_lb" "argocd-lb" {
+  tags {
+    "kubernetes.io/service-name" = "argocd/argocd-1-server",
+  }
+}
+
 resource "gitlab_project_hook" "example" {
   project               = "kyriakos_tsalia/pure-gitops"
-  url                   = "https://ad1a0f04350ea49c1beffcb2542c4a35-1068545409.eu-central-1.elb.amazonaws.com/api/webhook"
+  url                   = "${data.aws_lb.dns_name}/api/webhook"
   merge_requests_events = true
   enable_ssl_verification = false
 }
