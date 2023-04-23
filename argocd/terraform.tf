@@ -42,9 +42,3 @@ provider "kubernetes" {
     command     = "aws"
   }
 }
-
-resource "kubernetes_namespace" "namespace_argocd" {
-  metadata {
-    name = "testing"
-  }
-}
