@@ -26,21 +26,21 @@ resource "gitlab_deploy_token" "argocd" {
   scopes = ["read_repository"]
 }
 
-# resource "kubernetes_manifest" "private-repo-connection" {
-#   manifest = {
-#     "apiVersion" : "v1",
-#     "kind" : "Secret",
-#     "metadata" : {
-#       "name" : "my-private-https-repo",
-#       "namespace" : "argocd",
-#       "labels" : {
-#         "argocd.argoproj.io/secret-type" : "repository"
-#       }
-#     },
-#     "data" : {
-#       "url" : bsae64encode("https://gitlab.com/kyriakos_tsalia/pure-gitops.git"),
-#       "password" : bsae64encode(gitlab_deploy_token.argocd.token),
-#       "username" : bsae64encode(gitlab_deploy_token.argocd.username),
-#     }
-#   }
-# }
+resource "kubernetes_manifest" "private-repo-connection" {
+  manifest = {
+    "apiVersion" : "v1",
+    "kind" : "Secret",
+    "metadata" : {
+      "name" : "my-private-https-repo",
+      "namespace" : "argocd",
+      "labels" : {
+        "argocd.argoproj.io/secret-type" : "repository"
+      }
+    },
+    "data" : {
+      "url" : base64encode("https://gitlab.com/kyriakos_tsalia/pure-gitops.git"),
+      "password" : base64encode(gitlab_deploy_token.argocd.token),
+      "username" : base64encode(gitlab_deploy_token.argocd.username),
+    }
+  }
+}
