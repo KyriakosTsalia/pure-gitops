@@ -14,12 +14,6 @@ terraform {
       version = "~>0.44.1"
     }
   }
-  cloud {
-    organization = "GitOps-Organization"
-    workspaces {
-      name = "argocd"
-    }
-  }
 }
 
 data "tfe_outputs" "eks" {
@@ -28,7 +22,7 @@ data "tfe_outputs" "eks" {
 }
 
 output "eks-cluster-endpoint" {
-  value = data.tfe_outputs.eks.cluster_endpoint
+  value = data.tfe_outputs.eks.values.cluster_endpoint
 }
 
 # provider "helm" {
