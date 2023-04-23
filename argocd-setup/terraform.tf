@@ -1,6 +1,10 @@
 terraform {
   required_version = "~>1.4.4"
   required_providers {
+    aws = {
+      source = "hashicorp/aws"
+      version = "4.64.0"
+    }
     gitlab = {
       source  = "gitlabhq/gitlab"
       version = "15.11.0"
@@ -28,6 +32,15 @@ data "tfe_outputs" "eks" {
 variable "gitlab_token" {
   type        = string
   description = "OAuth token supplied by the VCS provider."
+}
+
+variable "AWS_DEFAULT_REGION" {
+  type        = string
+  description = "(Optional) The region where the aws resources will be created. Defaults to eu-central-1."
+}
+
+provider "aws" {
+  region = var.AWS_DEFAULT_REGION
 }
 
 provider "gitlab" {

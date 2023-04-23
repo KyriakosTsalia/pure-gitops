@@ -29,19 +29,19 @@ resource "gitlab_deploy_token" "argocd" {
 resource "terraform_data" "argocd-lb-delay" {
   triggers_replace = helm_release.argocd.id
   provisioner "local-exec" {
-    command = ["sleep 60"]
+    command = "sleep 60"
   }
 }
 
 data "aws_lb" "argocd-lb" {
-  tags {
-    kubernetes.io/service-name = "argocd/argocd-1-server"
+  tags = {
+    "kubernetes.io/service-name" = "argocd/argocd-1-server"
   }
 }
 
 resource "gitlab_project_hook" "example" {
   project               = "kyriakos_tsalia/pure-gitops"
-  url                   = "${data.aws_lb.dns_name}/api/webhook"
+  url                   = "${data.aws_lb.argocd-lb.dns_name}/api/webhook"
   merge_requests_events = true
   enable_ssl_verification = false
 }
