@@ -41,6 +41,11 @@ resource "tfe_workspace" "argocd" {
   }
 }
 
+resource "tfe_run_trigger" "reinstall-argocd" {
+  workspace_id  = tfe_workspace.argocd.id
+  sourceable_id = tfe_workspace.eks.id
+}
+
 resource "tfe_variable_set" "aws-creds" {
   name         = "AWS Credentials"
   description  = "Variable set applied to all workspaces."
