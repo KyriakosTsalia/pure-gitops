@@ -41,6 +41,6 @@ variable "AWS_DEFAULT_REGION" {
 }
 
 variable "eks_cluster_name" {
-    type = string
-    description = "The name of your EKS cluster."
+  type        = string
+  description = "The name of your EKS cluster."
 }

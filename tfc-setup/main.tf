@@ -28,26 +28,37 @@ resource "tfe_workspace" "eks" {
   }
 }
 
+resource "tfe_variable_set" "aws-creds" {
+  name         = "AWS Credentials"
+  description  = "Variable set applied to all workspaces."
+  organization = tfe_organization.gitops-org.name
+}
+
+resource "tfe_project_variable_set" "gitops-eks" {
+  variable_set_id = tfe_variable_set.aws-creds.id
+  project_id      = tfe_project.gitops-eks.id
+}
+
 resource "tfe_variable" "aws-region" {
-  key          = "AWS_DEFAULT_REGION"
-  value        = var.AWS_DEFAULT_REGION
-  category     = "env"
-  workspace_id = tfe_workspace.eks.id
+  key             = "AWS_DEFAULT_REGION"
+  value           = var.AWS_DEFAULT_REGION
+  category        = "env"
+  variable_set_id = tfe_variable_set.aws-creds.id
 }
 
 resource "tfe_variable" "aws-access-key" {
-  key          = "AWS_ACCESS_KEY_ID"
-  value        = var.AWS_ACCESS_KEY_ID
-  category     = "env"
-  workspace_id = tfe_workspace.eks.id
+  key             = "AWS_ACCESS_KEY_ID"
+  value           = var.AWS_ACCESS_KEY_ID
+  category        = "env"
+  variable_set_id = tfe_variable_set.aws-creds.id
 }
 
 resource "tfe_variable" "aws-secret-key" {
-  key          = "AWS_SECRET_ACCESS_KEY"
-  value        = var.AWS_SECRET_ACCESS_KEY
-  category     = "env"
-  workspace_id = tfe_workspace.eks.id
-  sensitive    = true
+  key             = "AWS_SECRET_ACCESS_KEY"
+  value           = var.AWS_SECRET_ACCESS_KEY
+  category        = "env"
+  variable_set_id = tfe_variable_set.aws-creds.id
+  sensitive       = true
 }
 
 resource "tfe_variable" "eks-cluster-name" {
