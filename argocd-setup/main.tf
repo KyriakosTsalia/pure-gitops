@@ -43,7 +43,7 @@ data "kubernetes_service" "argocd-lb" {
 
 resource "gitlab_project_hook" "example" {
   project                 = "kyriakos_tsalia/pure-gitops"
-  url                     = "${data.kubernetes_service.argocd-lb.status.load_balancer.ingress[0].hostname}/api/webhook"
+  url                     = "${data.kubernetes_service.argocd-lb.status[0].load_balancer[0].ingress[0].hostname}/api/webhook"
   merge_requests_events   = true
   enable_ssl_verification = false
 }
