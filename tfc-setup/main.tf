@@ -30,7 +30,7 @@ resource "tfe_workspace" "eks" {
 }
 
 resource "tfe_workspace" "argocd" {
-  name              = "argocd"
+  name              = "argocd-installation"
   organization      = tfe_organization.gitops-org.name
   project_id        = tfe_project.gitops-eks.id
   terraform_version = "~>1.4.5"
