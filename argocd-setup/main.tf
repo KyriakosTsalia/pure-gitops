@@ -41,6 +41,13 @@ data "aws_lb" "argocd-lb" {
   depends_on = [terraform_data.argocd-lb-delay]
 }
 
+data "aws_lbs" "test" {
+}
+
+output "test" {
+  value = aws_lbs.test.arns
+}
+
 resource "gitlab_project_hook" "example" {
   project                 = "kyriakos_tsalia/pure-gitops"
   url                     = "${data.aws_lb.argocd-lb.dns_name}/api/webhook"
