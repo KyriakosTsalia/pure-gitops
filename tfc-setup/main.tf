@@ -17,11 +17,12 @@ resource "tfe_oauth_client" "gitlab-client" {
 }
 
 resource "tfe_workspace" "eks" {
-  name              = "eks"
-  organization      = tfe_organization.gitops-org.name
-  project_id        = tfe_project.gitops-eks.id
-  terraform_version = "~>1.4.5"
-  working_directory = "./eks-argocd"
+  name                      = "eks"
+  organization              = tfe_organization.gitops-org.name
+  project_id                = tfe_project.gitops-eks.id
+  remote_state_consumer_ids = [tfe_workspace.argocd.id]
+  terraform_version         = "~>1.4.5"
+  working_directory         = "./eks-argocd"
   vcs_repo {
     identifier     = var.repo-identifier
     oauth_token_id = tfe_oauth_client.gitlab-client.oauth_token_id
