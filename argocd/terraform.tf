@@ -42,3 +42,9 @@ provider "kubernetes" {
     command     = "aws"
   }
 }
+
+resource "kubernetes_namespace" "namespace_argocd" {
+  metadata {
+    name = var.argocd_k8s_namespace
+  }
+}
