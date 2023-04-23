@@ -45,7 +45,7 @@ data "aws_lbs" "test" {
 }
 
 output "test" {
-  value = aws_lbs.test.arns
+  value = data.aws_lbs.test.arns
 }
 
 resource "gitlab_project_hook" "example" {
