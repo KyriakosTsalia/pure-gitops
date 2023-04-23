@@ -14,6 +14,12 @@ terraform {
       version = "~>0.44.1"
     }
   }
+  cloud {
+    organization = "GitOps-Organization"
+    workspaces {
+      name = "argocd"
+    }
+  }
 }
 
 data "tfe_outputs" "eks" {
