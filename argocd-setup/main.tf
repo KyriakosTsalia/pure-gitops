@@ -26,27 +26,27 @@ resource "gitlab_deploy_token" "argocd" {
   scopes = ["read_repository"]
 }
 
-resource "terraform_data" "argocd-lb-delay" {
-  triggers_replace = helm_release.argocd.id
-  provisioner "local-exec" {
-    command = "sleep 60"
-  }
-}
+# resource "terraform_data" "argocd-lb-delay" {
+#   triggers_replace = helm_release.argocd.id
+#   provisioner "local-exec" {
+#     command = "sleep 60"
+#   }
+# }
 
-data "kubernetes_service" "argocd-lb" {
-  metadata {
-    name      = "argocd-1-server"
-    namespace = "argocd"
-  }
-  depends_on = [terraform_data.argocd-lb-delay]
-}
+# data "kubernetes_service" "argocd-lb" {
+#   metadata {
+#     name      = "argocd-1-server"
+#     namespace = "argocd"
+#   }
+#   depends_on = [terraform_data.argocd-lb-delay]
+# }
 
-resource "gitlab_project_hook" "example" {
-  project                 = "kyriakos_tsalia/pure-gitops"
-  url                     = "https://${data.kubernetes_service.argocd-lb.status[0].load_balancer[0].ingress[0].hostname}/api/webhook"
-  merge_requests_events   = true
-  enable_ssl_verification = false
-}
+# resource "gitlab_project_hook" "example" {
+#   project                 = "kyriakos_tsalia/pure-gitops"
+#   url                     = "https://${data.kubernetes_service.argocd-lb.status[0].load_balancer[0].ingress[0].hostname}/api/webhook"
+#   merge_requests_events   = true
+#   enable_ssl_verification = false
+# }
 
 resource "kubernetes_manifest" "private-repo-connection" {
   manifest = {
