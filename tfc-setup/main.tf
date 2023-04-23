@@ -97,3 +97,11 @@ resource "tfe_variable" "eks-cluster-name" {
   category     = "terraform"
   workspace_id = tfe_workspace.eks.id
 }
+
+resource "tfe_variable" "gitlab-token" {
+  key          = "gitlab_token"
+  value        = var.oauth-token
+  category     = "terraform"
+  workspace_id = tfe_workspace.argocd.id
+  sensitive    = true
+}
