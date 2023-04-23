@@ -21,30 +21,34 @@ data "tfe_outputs" "eks" {
   workspace    = "eks"
 }
 
-provider "helm" {
-  kubernetes {
-    host                   = data.tfe_outputs.eks.cluster_endpoint
-    cluster_ca_certificate = base64decode(data.tfe_outputs.eks.cluster_ca_cert_data)
-    exec {
-      api_version = "client.authentication.k8s.io/v1beta1"
-      args        = ["eks", "get-token", "--cluster-name", var.cluster_name]
-      command     = "aws"
-    }
-  }
+output "eks-cluster-endpoint" {
+  value = data.tfe_outputs.eks.cluster_endpoint
 }
 
-provider "kubernetes" {
-  host                   = data.tfe_outputs.eks.cluster_endpoint
-  cluster_ca_certificate = base64decode(data.tfe_outputs.eks.cluster_ca_cert_data)
-  exec {
-    api_version = "client.authentication.k8s.io/v1beta1"
-    args        = ["eks", "get-token", "--cluster-name", var.cluster_name]
-    command     = "aws"
-  }
-}
+# provider "helm" {
+#   kubernetes {
+#     host                   = data.tfe_outputs.eks.cluster_endpoint
+#     cluster_ca_certificate = base64decode(data.tfe_outputs.eks.cluster_ca_cert_data)
+#     exec {
+#       api_version = "client.authentication.k8s.io/v1beta1"
+#       args        = ["eks", "get-token", "--cluster-name", var.cluster_name]
+#       command     = "aws"
+#     }
+#   }
+# }
 
-resource "kubernetes_namespace" "namespace_argocd" {
-  metadata {
-    name = var.argocd_k8s_namespace
-  }
-}
+# provider "kubernetes" {
+#   host                   = data.tfe_outputs.eks.cluster_endpoint
+#   cluster_ca_certificate = base64decode(data.tfe_outputs.eks.cluster_ca_cert_data)
+#   exec {
+#     api_version = "client.authentication.k8s.io/v1beta1"
+#     args        = ["eks", "get-token", "--cluster-name", var.cluster_name]
+#     command     = "aws"
+#   }
+# }
+
+# resource "kubernetes_namespace" "namespace_argocd" {
+#   metadata {
+#     name = var.argocd_k8s_namespace
+#   }
+# }
