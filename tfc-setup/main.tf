@@ -28,6 +28,18 @@ resource "tfe_workspace" "eks" {
   }
 }
 
+resource "tfe_workspace" "argocd" {
+  name              = "argocd"
+  organization      = tfe_organization.gitops-org.name
+  project_id        = tfe_project.gitops-eks.id
+  terraform_version = "~>1.4.5"
+  working_directory = "./argocd"
+  vcs_repo {
+    identifier     = var.repo-identifier
+    oauth_token_id = tfe_oauth_client.gitlab-client.oauth_token_id
+  }
+}
+
 resource "tfe_variable_set" "aws-creds" {
   name         = "AWS Credentials"
   description  = "Variable set applied to all workspaces."
