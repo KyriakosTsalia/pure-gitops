@@ -17,3 +17,30 @@ resource "helm_release" "argocd" {
     value = "60"
   }
 }
+
+resource "gitlab_deploy_token" "argocd" {
+  project  = "kyriakos_tsalia/pure-gitops"
+  name     = "ArgoCD deploy token"
+  username = "argocd-token"
+
+  scopes = ["read_repository"]
+}
+
+resource "kubernetes_manifest" "private-repo-connection" {
+  manifest = {
+    "apiVersion" : "v1",
+    "kind" : "Secret",
+    "metadata" : {
+      "name" : "my-private-https-repo",
+      "namespace" : "argocd",
+      "labels" : {
+        "argocd.argoproj.io/secret-type" : "repository"
+      }
+    },
+    "stringData" : {
+      "url" : "https://github.com/argoproj/argocd-example-apps",
+      "password" : gitlab_deploy_token.argocd.token,
+      "username" : gitlab_deploy_token.argocd.username,
+    }
+  }
+}

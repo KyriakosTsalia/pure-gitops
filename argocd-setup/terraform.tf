@@ -1,9 +1,17 @@
 terraform {
   required_version = "~>1.4.4"
   required_providers {
+    gitlab = {
+      source  = "gitlabhq/gitlab"
+      version = "15.11.0"
+    }
     helm = {
       source  = "hashicorp/helm"
       version = "~>2.9.0"
+    }
+    kubernetes = {
+      source  = "hashicorp/kubernetes"
+      version = "2.20.0"
     }
     tfe = {
       source  = "hashicorp/tfe"
@@ -17,6 +25,15 @@ data "tfe_outputs" "eks" {
   workspace    = "eks"
 }
 
+variable "gitlab_token" {
+  type        = string
+  description = "OAuth token supplied by the VCS provider."
+}
+
+provider "gitlab" {
+  token = var.gitlab_token
+}
+
 provider "helm" {
   kubernetes {
     host                   = data.tfe_outputs.eks.values.cluster_endpoint
@@ -26,5 +43,15 @@ provider "helm" {
       args        = ["eks", "get-token", "--cluster-name", "cluster-1"]
       command     = "aws"
     }
+  }
+}
+
+provider "kubernetes" {
+  host                   = data.tfe_outputs.eks.values.cluster_endpoint
+  cluster_ca_certificate = base64decode(data.tfe_outputs.eks.values.cluster_ca_cert_data)
+  exec {
+    api_version = "client.authentication.k8s.io/v1beta1"
+    args        = ["eks", "get-token", "--cluster-name", "cluster-1"]
+    command     = "aws"
   }
 }
