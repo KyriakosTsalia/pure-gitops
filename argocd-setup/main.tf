@@ -37,7 +37,7 @@ data "aws_lb" "argocd-lb" {
   tags = {
     "kubernetes.io/service-name" = "argocd/argocd-1-server"
   }
-  depends_on = [terraform_data.argocd-lb-delay.id]
+  depends_on = [terraform_data.argocd-lb-delay]
 }
 
 resource "gitlab_project_hook" "example" {
