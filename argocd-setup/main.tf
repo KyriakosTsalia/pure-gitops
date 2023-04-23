@@ -38,7 +38,7 @@ resource "kubernetes_manifest" "private-repo-connection" {
       }
     },
     "stringData" : {
-      "url" : "https://github.com/argoproj/argocd-example-apps",
+      "url" : "https://gitlab.com/kyriakos_tsalia/pure-gitops",
       "password" : gitlab_deploy_token.argocd.token,
       "username" : gitlab_deploy_token.argocd.username,
     }
