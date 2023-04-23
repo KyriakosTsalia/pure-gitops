@@ -22,7 +22,7 @@ resource "tfe_workspace" "eks" {
   project_id                = tfe_project.gitops-eks.id
   remote_state_consumer_ids = [tfe_workspace.argocd.id]
   terraform_version         = "~>1.4.5"
-  working_directory         = "./eks-argocd"
+  working_directory         = "./eks-setup"
   vcs_repo {
     identifier     = var.repo-identifier
     oauth_token_id = tfe_oauth_client.gitlab-client.oauth_token_id
