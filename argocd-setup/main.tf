@@ -33,24 +33,17 @@ resource "terraform_data" "argocd-lb-delay" {
   }
 }
 
-data "aws_lb" "argocd-lb" {
-  tags = {
-    "kubernetes.io/service-name"      = "argocd/argocd-1-server"
-    "kubernetes.io/cluster/cluster-1" = "owned"
+data "kubernetes_service" "argocd-lb" {
+  metadata {
+    name      = "argocd-1-server"
+    namespace = "argocd"
   }
   depends_on = [terraform_data.argocd-lb-delay]
 }
 
-data "aws_lbs" "test" {
-}
-
-output "test" {
-  value = data.aws_lbs.test.arns
-}
-
 resource "gitlab_project_hook" "example" {
   project                 = "kyriakos_tsalia/pure-gitops"
-  url                     = "${data.aws_lb.argocd-lb.dns_name}/api/webhook"
+  url                     = "${data.kubernetes_service.argocd-lb.status.load_balancer.ingress[0].hostname}/api/webhook"
   merge_requests_events   = true
   enable_ssl_verification = false
 }
