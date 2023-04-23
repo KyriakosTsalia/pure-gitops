@@ -23,6 +23,7 @@ data "tfe_outputs" "eks" {
 
 output "eks-cluster-endpoint" {
   value = data.tfe_outputs.eks.values.cluster_endpoint
+  sensitive = true
 }
 
 # provider "helm" {
