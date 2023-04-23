@@ -34,14 +34,7 @@ variable "gitlab_token" {
   description = "OAuth token supplied by the VCS provider."
 }
 
-# variable "AWS_DEFAULT_REGION" {
-#   type        = string
-#   description = "(Optional) The region where the aws resources will be created. Defaults to eu-central-1."
-# }
-
-provider "aws" {
-  region = var.AWS_DEFAULT_REGION
-}
+provider "aws" {}
 
 provider "gitlab" {
   token = var.gitlab_token
