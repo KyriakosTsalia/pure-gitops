@@ -1,26 +1,67 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  creationTimestamp: null
   labels:
-    app: nginx
-  name: nginx
+    app: pod-info
+  name: pod-info
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: nginx
-  strategy: {}
+      app: pod-info
   template:
     metadata:
-      creationTimestamp: null
       labels:
-        app: nginx
+        app: pod-info
     spec:
       containers:
-      - image: nginx
-        name: nginx
+      - image: ktsaliagkos/pod-info
+        name: pod-info
         ports:
-        - containerPort: 80
-        resources: {}
-status: {}
+        - containerPort: 8080
+        env:
+        - name: TABLE_STYLE
+          valueFrom:
+            configMapKeyRef:
+              name: pod-info-cm
+              key: TABLE_STYLE
+        - name: NODE_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: spec.nodeName
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: POD_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        - name: POD_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        - name: POD_SA
+          valueFrom:
+            fieldRef:
+              fieldPath: spec.serviceAccountName
+        - name: REQUEST_CPU
+          valueFrom:
+            resourceFieldRef:
+              containerName: pod-info
+              resource: requests.cpu
+        - name: LIMIT_CPU
+          valueFrom:
+            resourceFieldRef:
+              containerName: pod-info
+              resource: limits.cpu
+        - name: REQUEST_MEM
+          valueFrom:
+            resourceFieldRef:
+              containerName: pod-info
+              resource: requests.memory
+        - name: LIMIT_MEM
+          valueFrom:
+            resourceFieldRef:
+              containerName: pod-info
+              resource: limits.memory
