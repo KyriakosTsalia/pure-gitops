@@ -21,10 +21,7 @@ resource "kubernetes_manifest" "argocd-app" {
         "automated" : {
           "selfHeal" : true,
           "prune" : true
-        },
-        "syncOptions" : [
-          "CreateNamespace=true"
-        ]
+        }
       }
     }
   }
