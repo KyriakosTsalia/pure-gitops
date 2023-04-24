@@ -10,10 +10,6 @@ spec:
     name: http
     protocol: TCP
     targetPort: 8080
-  - port: 443
-    name: https
-    protocol: TCP
-    targetPort: 8080
   selector:
     app: pod-info
   type: LoadBalancer
