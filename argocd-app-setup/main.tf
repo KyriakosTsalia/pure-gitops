@@ -15,7 +15,7 @@ resource "kubernetes_manifest" "argocd-app" {
       },
       "destination" : {
         "server" : "https://kubernetes.default.svc",
-        "namespace" : "nginx-ns"
+        "namespace" : "default"
       },
       "syncPolicy" : {
         "automated" : {
