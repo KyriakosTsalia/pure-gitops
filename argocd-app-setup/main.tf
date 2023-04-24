@@ -3,7 +3,7 @@ resource "kubernetes_manifest" "argocd-app" {
     "apiVersion" : "argoproj.io/v1alpha1",
     "kind" : "Application",
     "metadata" : {
-      "name" : "nginx-app",
+      "name" : "pod-info-app",
       "namespace" : "argocd"
     },
     "spec" : {
