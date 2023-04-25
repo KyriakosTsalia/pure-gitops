@@ -20,7 +20,7 @@ resource "tfe_workspace" "eks" {
   name                      = "eks"
   organization              = tfe_organization.gitops-org.name
   project_id                = tfe_project.gitops-eks.id
-  remote_state_consumer_ids = [tfe_workspace.argocd.id, tfe_workspace.argocd-app.id]
+  # remote_state_consumer_ids = [tfe_workspace.argocd.id, tfe_workspace.argocd-app.id]
   terraform_version         = "~>1.4.5"
   working_directory         = "./eks-setup"
   vcs_repo {
@@ -29,17 +29,17 @@ resource "tfe_workspace" "eks" {
   }
 }
 
-resource "tfe_workspace" "argocd" {
-  name              = "argocd-installation"
-  organization      = tfe_organization.gitops-org.name
-  project_id        = tfe_project.gitops-eks.id
-  terraform_version = "~>1.4.5"
-  working_directory = "./argocd-setup"
-  vcs_repo {
-    identifier     = var.repo-identifier
-    oauth_token_id = tfe_oauth_client.gitlab-client.oauth_token_id
-  }
-}
+# resource "tfe_workspace" "argocd" {
+#   name              = "argocd-installation"
+#   organization      = tfe_organization.gitops-org.name
+#   project_id        = tfe_project.gitops-eks.id
+#   terraform_version = "~>1.4.5"
+#   working_directory = "./argocd-setup"
+#   vcs_repo {
+#     identifier     = var.repo-identifier
+#     oauth_token_id = tfe_oauth_client.gitlab-client.oauth_token_id
+#   }
+# }
 
 resource "tfe_workspace" "argocd-app" {
   name              = "argocd-app"
