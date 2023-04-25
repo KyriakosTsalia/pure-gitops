@@ -29,18 +29,17 @@ resource "tfe_workspace" "eks" {
   }
 }
 
-# resource "tfe_workspace" "argocd" {
-#   name              = "argocd-installation"
-#   organization      = tfe_organization.gitops-org.name
-#   project_id        = tfe_project.gitops-eks.id
-#   terraform_version = "~>1.4.5"
-#   working_directory = "./argocd-setup"
-#   vcs_repo {
-#     identifier     = var.repo-identifier
-#     oauth_token_id = tfe_oauth_client.gitlab-client.oauth_token_id
-#   }
-#   force_delete = true
-# }
+resource "tfe_workspace" "argocd" {
+  name              = "argocd-installation"
+  organization      = tfe_organization.gitops-org.name
+  project_id        = tfe_project.gitops-eks.id
+  terraform_version = "~>1.4.5"
+  working_directory = "./argocd-setup"
+  vcs_repo {
+    identifier     = var.repo-identifier
+    oauth_token_id = tfe_oauth_client.gitlab-client.oauth_token_id
+  }
+}
 
 resource "tfe_workspace" "argocd-app" {
   name              = "argocd-app"
@@ -54,10 +53,10 @@ resource "tfe_workspace" "argocd-app" {
   }
 }
 
-# resource "tfe_run_trigger" "reinstall-argocd" {
-#   workspace_id  = tfe_workspace.argocd.id
-#   sourceable_id = tfe_workspace.eks.id
-# }
+resource "tfe_run_trigger" "reinstall-argocd" {
+  workspace_id  = tfe_workspace.argocd.id
+  sourceable_id = tfe_workspace.eks.id
+}
 
 resource "tfe_variable_set" "aws-creds" {
   name         = "AWS Credentials"
@@ -99,10 +98,10 @@ resource "tfe_variable" "eks-cluster-name" {
   workspace_id = tfe_workspace.eks.id
 }
 
-# resource "tfe_variable" "gitlab-token" {
-#   key          = "gitlab_token"
-#   value        = var.oauth-token
-#   category     = "terraform"
-#   workspace_id = tfe_workspace.argocd.id
-#   sensitive    = true
-# }
+resource "tfe_variable" "gitlab-token" {
+  key          = "gitlab_token"
+  value        = var.oauth-token
+  category     = "terraform"
+  workspace_id = tfe_workspace.argocd.id
+  sensitive    = true
+}
