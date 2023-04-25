@@ -20,7 +20,7 @@ resource "tfe_workspace" "eks" {
   name                      = "eks"
   organization              = tfe_organization.gitops-org.name
   project_id                = tfe_project.gitops-eks.id
-  # remote_state_consumer_ids = [tfe_workspace.argocd.id, tfe_workspace.argocd-app.id]
+  remote_state_consumer_ids = [tfe_workspace.argocd.id, tfe_workspace.argocd-app.id]
   terraform_version         = "~>1.4.5"
   working_directory         = "./eks-setup"
   vcs_repo {
