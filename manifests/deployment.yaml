@@ -15,7 +15,7 @@ spec:
         app: pod-info
     spec:
       containers:
-      - image: ktsaliagkos/pod-info
+      - image: registry.gitlab.com/dummy-image
         name: pod-info
         ports:
         - containerPort: 8080
