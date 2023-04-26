@@ -73,6 +73,7 @@ resource "kubernetes_manifest" "private-repo-connection-1" {
       "username" : base64encode(gitlab_deploy_token.argocd-manifest-token.username),
     }
   }
+  depends_on = [helm_release.argocd]
 }
 
 resource "kubernetes_manifest" "private-repo-connection-2" {
@@ -92,4 +93,5 @@ resource "kubernetes_manifest" "private-repo-connection-2" {
       "username" : base64encode(gitlab_deploy_token.argocd-container-registry-token.username),
     }
   }
+  depends_on = [helm_release.argocd]
 }
