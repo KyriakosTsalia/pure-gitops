@@ -14,6 +14,8 @@ spec:
       labels:
         app: pod-info
     spec:
+      imagePullSecrets:
+        - name: gitlab-registry-credentials
       containers:
       - image: registry.gitlab.com/kyriakos_tsalia/pod-info-app:41-a210510d
         name: pod-info
