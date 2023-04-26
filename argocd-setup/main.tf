@@ -95,3 +95,7 @@ resource "kubernetes_manifest" "private-repo-connection-2" {
   }
   depends_on = [helm_release.argocd]
 }
+
+output "argocd-lb" {
+  value = data.kubernetes_service.argocd-lb.status[0].load_balancer[0].ingress[0].hostname
+}
