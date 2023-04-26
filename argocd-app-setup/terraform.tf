@@ -1,6 +1,10 @@
 terraform {
   required_version = "~>1.4.4"
   required_providers {
+    gitlab = {
+      source  = "gitlabhq/gitlab"
+      version = "15.11.0"
+    }
     tfe = {
       source  = "hashicorp/tfe"
       version = "~>0.44.1"
@@ -15,6 +19,15 @@ terraform {
 data "tfe_outputs" "eks" {
   organization = "GitOps-Organization"
   workspace    = "eks"
+}
+
+variable "gitlab_token" {
+  type        = string
+  description = "OAuth token supplied by the VCS provider."
+}
+
+provider "gitlab" {
+  token = var.gitlab_token
 }
 
 provider "kubernetes" {
