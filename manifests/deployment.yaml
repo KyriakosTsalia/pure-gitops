@@ -15,9 +15,9 @@ spec:
         app: pod-info
     spec:
       imagePullSecrets:
-        - name: gitlab-registry-credentials-1
+        - name: gitlab-registry-credentials
       containers:
-      - image: registry.gitlab.com/kyriakos_tsalia/pod-info-app:43-06b8583e
+      - image: registry.gitlab.com/kyriakos_tsalia/pod-info-app:14-920a68b3
         name: pod-info
         ports:
         - containerPort: 8080
