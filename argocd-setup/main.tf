@@ -18,12 +18,20 @@ resource "helm_release" "argocd" {
   }
 }
 
-resource "gitlab_deploy_token" "argocd" {
+resource "gitlab_deploy_token" "argocd-manifest-token" {
   project  = "kyriakos_tsalia/pure-gitops"
-  name     = "ArgoCD deploy token"
-  username = "argocd-token"
+  name     = "ArgoCD manifest repo token"
+  username = "argocd-manifest-token"
 
   scopes = ["read_repository"]
+}
+
+resource "gitlab_deploy_token" "argocd-container-registry-token" {
+  project  = "kyriakos_tsalia/pod-info-app"
+  name     = "ArgoCD app repo token"
+  username = "argocd-container-registry-token"
+
+  scopes = ["read_registry"]
 }
 
 resource "terraform_data" "argocd-lb-delay" {
@@ -48,12 +56,12 @@ resource "gitlab_project_hook" "example" {
   enable_ssl_verification = false
 }
 
-resource "kubernetes_manifest" "private-repo-connection" {
+resource "kubernetes_manifest" "private-repo-connection-1" {
   manifest = {
     "apiVersion" : "v1",
     "kind" : "Secret",
     "metadata" : {
-      "name" : "my-private-https-repo",
+      "name" : "manifest-repo",
       "namespace" : "argocd",
       "labels" : {
         "argocd.argoproj.io/secret-type" : "repository"
@@ -61,8 +69,27 @@ resource "kubernetes_manifest" "private-repo-connection" {
     },
     "data" : {
       "url" : base64encode("https://gitlab.com/kyriakos_tsalia/pure-gitops.git"),
-      "password" : base64encode(gitlab_deploy_token.argocd.token),
-      "username" : base64encode(gitlab_deploy_token.argocd.username),
+      "password" : base64encode(gitlab_deploy_token.argocd-manifest-token.token),
+      "username" : base64encode(gitlab_deploy_token.argocd-manifest-token.username),
+    }
+  }
+}
+
+resource "kubernetes_manifest" "private-repo-connection-2" {
+  manifest = {
+    "apiVersion" : "v1",
+    "kind" : "Secret",
+    "metadata" : {
+      "name" : "app-repo",
+      "namespace" : "argocd",
+      "labels" : {
+        "argocd.argoproj.io/secret-type" : "repository"
+      }
+    },
+    "data" : {
+      "url" : base64encode("https://gitlab.com/kyriakos_tsalia/pod-info-app.git"),
+      "password" : base64encode(gitlab_deploy_token.argocd-container-registry-token.token),
+      "username" : base64encode(gitlab_deploy_token.argocd-container-registry-token.username),
     }
   }
 }
