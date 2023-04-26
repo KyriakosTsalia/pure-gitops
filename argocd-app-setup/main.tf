@@ -10,6 +10,7 @@ resource "kubernetes_manifest" "argocd-app" {
       "project" : "default",
       "source" : {
         "repoURL" : "https://gitlab.com/kyriakos_tsalia/pod-info-app",
+        "path" : ".",
         "targetRevision" : "HEAD"
       },
       "destination" : {
