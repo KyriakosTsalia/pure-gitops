@@ -23,7 +23,7 @@ resource "gitlab_deploy_token" "argocd" {
   name     = "ArgoCD deploy token"
   username = "argocd-token"
 
-  scopes = ["read_repository", "read_registry"]
+  scopes = ["read_repository"]
 }
 
 resource "terraform_data" "argocd-lb-delay" {
