@@ -105,3 +105,11 @@ resource "tfe_variable" "gitlab-token" {
   workspace_id = tfe_workspace.argocd.id
   sensitive    = true
 }
+
+resource "tfe_variable" "gitlab-token-app-repo" {
+  key          = "gitlab_token"
+  value        = var.oauth-token
+  category     = "terraform"
+  workspace_id = tfe_workspace.argocd-app.id
+  sensitive    = true
+}
