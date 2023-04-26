@@ -62,7 +62,8 @@ resource "kubernetes_manifest" "repo-credentials" {
     "apiVersion" : "v1",
     "kind" : "Secret",
     "metadata" : {
-      "name" : "gitlab-registry-credentials"
+      "name" : "gitlab-registry-credentials",
+      "namespace" : "default"
     },
     "type" : "kubernetes.io/dockerconfigjson",
     "data" : {
