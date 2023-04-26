@@ -113,3 +113,10 @@ resource "tfe_variable" "gitlab-token-app-repo" {
   workspace_id = tfe_workspace.argocd-app.id
   sensitive    = true
 }
+
+resource "tfe_variable" "app-repo-user-email" {
+  key          = "app-repo-user-email"
+  value        = var.app-repo-user-email
+  category     = "terraform"
+  workspace_id = tfe_workspace.argocd-app.id
+}
