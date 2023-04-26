@@ -26,6 +26,11 @@ variable "gitlab_token" {
   description = "OAuth token supplied by the VCS provider."
 }
 
+variable "app-repo-user-email" {
+  type        = string
+  description = "Your GitLab email."
+}
+
 provider "gitlab" {
   token = var.gitlab_token
 }

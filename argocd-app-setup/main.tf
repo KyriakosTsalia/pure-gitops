@@ -34,3 +34,39 @@ resource "gitlab_deploy_token" "argocd" {
 
   scopes = ["read_registry"]
 }
+
+locals {
+  email    = var.app-repo-user-email
+  username = gitlab_deploy_token.argocd.username
+  password = gitlab_deploy_token.argocd.token
+  auth     = base64encode("${gitlab_deploy_token.argocd.username}:${gitlab_deploy_token.argocd.token}")
+}
+
+locals {
+  dockerconfigjson = <<EOT
+  {
+      "auths": {
+          "https://registry.gitlab.com":{
+              "username":"${local.username}",
+              "password":"${local.password}",
+              "email":"${local.email}",
+              "auth":"${local.auth}"
+      	  }
+      }
+  }
+  EOT
+}
+
+resource "kubernetes_manifest" "repo-credentials" {
+  manifest = {
+    "apiVersion" : "v1",
+    "kind" : "Secret",
+    "metadata" : {
+      "name" : "gitlab-registry-credentials"
+    },
+    "type" : "kubernetes.io/dockerconfigjson",
+    "data" : {
+      ".dockerconfigjson" : base64encode(local.dockerconfigjson)
+    }
+  }
+}
