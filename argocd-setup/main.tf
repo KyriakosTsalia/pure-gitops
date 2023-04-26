@@ -31,7 +31,7 @@ resource "gitlab_deploy_token" "argocd-container-registry-token" {
   name     = "ArgoCD app repo token"
   username = "argocd-container-registry-token"
 
-  scopes = ["read_registry"]
+  scopes = ["read_repository", "read_registry"]
 }
 
 resource "terraform_data" "argocd-lb-delay" {
