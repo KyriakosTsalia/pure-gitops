@@ -26,3 +26,11 @@ resource "kubernetes_manifest" "argocd-app" {
     }
   }
 }
+
+resource "gitlab_deploy_token" "argocd" {
+  project  = "kyriakos_tsalia/pod-info-app"
+  name     = "ArgoCD registry token"
+  username = "argocd-token"
+
+  scopes = ["read_registry"]
+}
