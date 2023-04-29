@@ -1,6 +1,10 @@
 terraform {
   required_version = "~>1.4.4"
   required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "4.64.0"
+    }
     gitlab = {
       source  = "gitlabhq/gitlab"
       version = "15.11.0"
@@ -21,18 +25,8 @@ data "tfe_outputs" "eks" {
   workspace    = "eks"
 }
 
-variable "gitlab_token" {
-  type        = string
-  description = "OAuth token supplied by the VCS provider."
-}
-
-variable "app-repo-user-email" {
-  type        = string
-  description = "Your GitLab email."
-}
-
 provider "gitlab" {
-  token = var.gitlab_token
+  token = var.gitlab_auth_token
 }
 
 provider "kubernetes" {
