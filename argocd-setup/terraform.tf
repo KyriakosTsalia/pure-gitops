@@ -16,8 +16,13 @@ terraform {
   }
 }
 
+variable "ORG_NAME" {
+  type        = string
+  description = "Your organization's name."
+}
+
 data "tfe_outputs" "eks" {
-  organization = "GitOps-Organization"
+  organization = var.ORG_NAME
   workspace    = "eks"
 }
 
