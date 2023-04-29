@@ -126,3 +126,17 @@ resource "tfe_variable" "app-repo-project" {
   category     = "terraform"
   workspace_id = tfe_workspace.argocd-app.id
 }
+
+resource "tfe_variable" "manifest-repo-namespace" {
+  key          = "manifest-repo-namespace"
+  value        = var.manifest-repo-namespace
+  category     = "terraform"
+  workspace_id = tfe_workspace.argocd-app.id
+}
+
+resource "tfe_variable" "manifest-repo-project" {
+  key          = "manifest-repo-project"
+  value        = var.manifest-repo-project
+  category     = "terraform"
+  workspace_id = tfe_workspace.argocd-app.id
+}

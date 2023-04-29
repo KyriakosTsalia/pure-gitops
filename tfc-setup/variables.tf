@@ -59,3 +59,13 @@ variable "app-repo-project" {
   type        = string
   description = "The name of the application repository project."
 }
+
+variable "manifest-repo-namespace" {
+  type        = string
+  description = "The namespace where the manifest repository belongs."
+}
+
+variable "manifest-repo-project" {
+  type        = string
+  description = "The name of the manifest repository project."
+}
