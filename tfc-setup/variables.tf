@@ -49,3 +49,13 @@ variable "app-repo-user-email" {
   type        = string
   description = "Your GitLab email."
 }
+
+variable "app-repo-namespace" {
+  type        = string
+  description = "The namespace where the application repository belongs."
+}
+
+variable "app-repo-project" {
+  type        = string
+  description = "The name of the application repository project."
+}

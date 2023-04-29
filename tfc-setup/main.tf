@@ -98,16 +98,8 @@ resource "tfe_variable" "eks-cluster-name" {
   workspace_id = tfe_workspace.eks.id
 }
 
-resource "tfe_variable" "gitlab-token" {
-  key          = "gitlab_token"
-  value        = var.oauth-token
-  category     = "terraform"
-  workspace_id = tfe_workspace.argocd.id
-  sensitive    = true
-}
-
-resource "tfe_variable" "gitlab-token-app-repo" {
-  key          = "gitlab_token"
+resource "tfe_variable" "gitlab-auth-token" {
+  key          = "gitlab_auth_token"
   value        = var.oauth-token
   category     = "terraform"
   workspace_id = tfe_workspace.argocd-app.id
@@ -117,6 +109,20 @@ resource "tfe_variable" "gitlab-token-app-repo" {
 resource "tfe_variable" "app-repo-user-email" {
   key          = "app-repo-user-email"
   value        = var.app-repo-user-email
+  category     = "terraform"
+  workspace_id = tfe_workspace.argocd-app.id
+}
+
+resource "tfe_variable" "app-repo-namespace" {
+  key          = "app-repo-namespace"
+  value        = var.app-repo-namespace
+  category     = "terraform"
+  workspace_id = tfe_workspace.argocd-app.id
+}
+
+resource "tfe_variable" "app-repo-project" {
+  key          = "app-repo-project"
+  value        = var.app-repo-project
   category     = "terraform"
   workspace_id = tfe_workspace.argocd-app.id
 }
