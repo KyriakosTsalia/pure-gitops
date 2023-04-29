@@ -18,6 +18,14 @@ resource "helm_release" "argocd" {
   }
 }
 
+data "kubernetes_service" "argocd-lb" {
+  metadata {
+    name      = "argocd-1-server"
+    namespace = "argocd"
+  }
+  depends_on = [helm_release.argocd]
+}
+
 output "argocd-lb" {
   value = data.kubernetes_service.argocd-lb.status[0].load_balancer[0].ingress[0].hostname
 }
