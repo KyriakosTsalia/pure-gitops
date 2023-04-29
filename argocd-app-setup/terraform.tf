@@ -17,7 +17,7 @@ terraform {
 }
 
 data "tfe_outputs" "eks" {
-  organization = "GitOps-Organization"
+  organization = var.ORG_NAME
   workspace    = "eks"
 }
 

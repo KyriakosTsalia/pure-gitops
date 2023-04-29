@@ -1,3 +1,8 @@
+variable "ORG_NAME" {
+  type        = string
+  description = "Your organization's name."
+}
+
 variable "gitlab_auth_token" {
   type        = string
   description = "OAuth token supplied by the VCS provider."
