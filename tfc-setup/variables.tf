@@ -40,11 +40,6 @@ variable "AWS_DEFAULT_REGION" {
   default     = "eu-central-1"
 }
 
-variable "eks_cluster_name" {
-  type        = string
-  description = "The name of your EKS cluster."
-}
-
 variable "app-repo-user-email" {
   type        = string
   description = "Your GitLab email."

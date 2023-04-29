@@ -104,13 +104,6 @@ resource "tfe_variable" "org-name" {
   variable_set_id = tfe_variable_set.org-info.id
 }
 
-resource "tfe_variable" "eks-cluster-name" {
-  key          = "eks_cluster_name"
-  value        = var.eks_cluster_name
-  category     = "terraform"
-  workspace_id = tfe_workspace.eks.id
-}
-
 resource "tfe_variable" "gitlab-auth-token" {
   key          = "gitlab_auth_token"
   value        = var.oauth-token

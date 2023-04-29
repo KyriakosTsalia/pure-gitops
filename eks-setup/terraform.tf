@@ -12,6 +12,11 @@ terraform {
   }
 }
 
+variable "AWS_DEFAULT_REGION" {
+  type        = string
+  description = "(Optional) The region where the aws resources will be created. Defaults to eu-central-1."
+}
+
 provider "aws" {
   region = var.AWS_DEFAULT_REGION
 }
