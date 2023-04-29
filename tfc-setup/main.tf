@@ -53,10 +53,10 @@ resource "tfe_workspace" "argocd-app" {
   }
 }
 
-resource "tfe_run_trigger" "reinstall-argocd" {
-  workspace_id  = tfe_workspace.argocd.id
-  sourceable_id = tfe_workspace.eks.id
-}
+# resource "tfe_run_trigger" "reinstall-argocd" {
+#   workspace_id  = tfe_workspace.argocd.id
+#   sourceable_id = tfe_workspace.eks.id
+# }
 
 resource "tfe_variable_set" "aws-creds" {
   name         = "AWS Credentials"
@@ -89,6 +89,24 @@ resource "tfe_variable" "aws-secret-key" {
   category        = "env"
   variable_set_id = tfe_variable_set.aws-creds.id
   sensitive       = true
+}
+
+resource "tfe_variable_set" "org-info" {
+  name         = "Organization Info"
+  description  = "Information about the current organization."
+  organization = tfe_organization.gitops-org.name
+}
+
+resource "tfe_project_variable_set" "org-info" {
+  variable_set_id = tfe_variable_set.org-info.id
+  project_id      = tfe_project.gitops-eks.id
+}
+
+resource "tfe_variable" "org-name" {
+  key             = "ORG_NAME"
+  value           = var.org-name
+  category        = "terraform"
+  variable_set_id = tfe_variable_set.org-info.id
 }
 
 resource "tfe_variable" "eks-cluster-name" {
