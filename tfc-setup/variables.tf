@@ -16,6 +16,7 @@ variable "project-name" {
 variable "oauth-token" {
   type        = string
   description = "The token string you were given by your VCS provider."
+  sensitive   = true
 }
 
 variable "repo-identifier" {
